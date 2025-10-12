@@ -1,0 +1,25 @@
+.header {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background-color: var(--body-bg);
+    padding: var(--spacing-md);
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .header {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (min-width: 1048px) {
+    .header {
+        justify-content: space-between;
+        gap: var(--spacing-xl);
+    }
+}

@@ -1,0 +1,158 @@
+/*
+    ==========================================================================
+        Hamburger Design
+    ==========================================================================
+*/
+
+.hamburger-icon {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xs);
+    border-radius: 100%;
+    z-index: 1001;
+}
+
+.hamburger-icon .hamburger-line {
+    display: block;
+    width: 50%;
+    border: 2px solid var(--text-color);
+    border-radius: var(--border-radius);
+    background-color: var(--text-color);
+}
+
+@media (min-width: 1048px) {
+    .hamburger-icon {
+        display: none;
+    }
+}
+
+/*
+    ==========================================================================
+        Hamburger Close Animation
+    ==========================================================================
+*/
+.hamburger-icon.close {
+    background-color: var(--text-color);
+}
+
+.hamburger-icon.close .hamburger-line {
+    background-color: var(--body-bg);
+    border-color: var(--body-bg);
+}
+
+.hamburger-icon.close .hamburger-line#first {
+    animation: merge-first var(--animation-time) var(--animation-type);
+    transform: translateY(calc(var(--spacing-xs) * 2)) rotate(45deg);
+}
+
+.hamburger-icon.close .hamburger-line#second {
+    animation: merge-second var(--animation-time) var(--animation-type);
+    opacity: 0;
+}
+
+.hamburger-icon.close .hamburger-line#third {
+    animation: merge-third var(--animation-time) var(--animation-type);
+    transform: translateY(calc(var(--spacing-xs) * -2)) rotate(-45deg);
+}
+
+@keyframes merge-first {
+    0% {
+        border-radius: var(--border-radius);
+        background-color: var(--text-color);
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(calc(var(--spacing-xs) * 2)) rotate(0);
+    }
+    100% {
+        transform: translateY(calc(var(--spacing-xs) * 2)) rotate(45deg);
+    }
+}
+
+@keyframes merge-second {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes merge-third {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(calc(var(--spacing-xs) * -2)) rotate(0);
+    }
+    100% {
+        transform: translateY(calc(var(--spacing-xs) * -2)) rotate(-45deg);
+    }
+}
+
+/*
+    ==========================================================================
+        Hamburger Open Animation
+    ==========================================================================
+*/
+
+.hamburger-icon.open .hamburger-line#first {
+    animation: unmerge-first var(--animation-time) var(--animation-type) reverse;
+    transform: translateY(0) rotate(0);
+}
+
+.hamburger-icon.open .hamburger-line#second {
+    animation: unmerge-second var(--animation-time) var(--animation-type)
+        reverse;
+    opacity: 1;
+}
+
+.hamburger-icon.open .hamburger-line#third {
+    animation: unmerge-third var(--animation-time) var(--animation-type) reverse;
+    transform: translateY(0) rotate(0);
+}
+
+@keyframes unmerge-first {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(calc(var(--spacing-xs) * 2)) rotate(0);
+    }
+    100% {
+        transform: translateY(calc(var(--spacing-xs) * 2)) rotate(45deg);
+    }
+}
+
+@keyframes unmerge-second {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes unmerge-third {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(calc(var(--spacing-xs) * -2)) rotate(0);
+    }
+    100% {
+        transform: translateY(calc(var(--spacing-xs) * -2)) rotate(-45deg);
+    }
+}

@@ -1,0 +1,21 @@
+.product-image {
+    height: 50%;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.product-image.full img {
+    width: 100%;
+    object-fit: fill;
+}
+
+.product-card img {
+    height: 100%;
+    object-fit: cover;
+    max-height: 250px;
+}

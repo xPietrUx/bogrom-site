@@ -1,0 +1,7 @@
+.copyright {
+    padding: var(--spacing-md);
+    text-align: center;
+    background-color: var(--tertiary-color);
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+}

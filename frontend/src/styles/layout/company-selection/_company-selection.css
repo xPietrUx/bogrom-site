@@ -1,0 +1,107 @@
+.company-selection {
+    height: 300vh;
+}
+
+@media (min-width: 1024px) {
+    .company-selection {
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+    }
+}
+
+.company-type {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .company-type {
+        min-height: 700px;
+        width: 100%;
+        flex: 1;
+    }
+}
+
+.company-type img {
+    width: 100%;
+    max-width: 600px;
+    object-fit: fill;
+    transition: transform var(--animation-time) var(--animation-type);
+}
+
+@media (hover: hover) {
+    .company-type:hover img {
+        transform: scale(1.05);
+    }
+}
+.company-description {
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 500px;
+}
+
+@media (min-width: 1024px) {
+    .company-description {
+        justify-content: center;
+        border-radius: var(--border-radius-sm);
+    }
+}
+
+.company-description#type-w1 {
+    background-color: rgba(65, 113, 138, 0.5);
+}
+
+.company-description#type-w2 {
+    background-color: rgba(0, 73, 113, 0.5);
+}
+
+.company-description#type-w3 {
+    background-color: rgba(179, 143, 0, 0.5);
+}
+
+.company-description#type-d1 {
+    background-color: rgba(180, 0, 0, 0.5);
+}
+
+.company-description#type-d2 {
+    background-color: rgba(0, 170, 255, 0.5);
+}
+
+.company-description#type-d3 {
+    background-color: rgba(61, 146, 0, 0.5);
+}
+
+.company-text {
+    text-align: center;
+    color: var(--body-bg);
+    text-shadow: var(--text-shadow);
+    background-color: var(--gray-font);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1024px) {
+    .company-text {
+        min-height: 500px;
+    }
+    .company-description .back-button {
+        display: none;
+    }
+}

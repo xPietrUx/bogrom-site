@@ -1,0 +1,98 @@
+.hamburger-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: var(--body-bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--animation-time) var(--animation-type);
+    overflow: none;
+}
+
+@media (min-width: 1048px) {
+    .hamburger-nav {
+        position: static;
+        height: auto;
+        width: auto;
+        visibility: visible;
+        opacity: 1;
+        background-color: var(--body-bg);
+    }
+}
+
+.nav-open {
+    opacity: 1;
+    visibility: visible;
+    transition: all var(--animation-time) var(--animation-type);
+}
+
+.hamburger-nav-elements {
+    font-size: calc(var(--base-font-size) * 2.5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+@media (min-width: 1048px) {
+    .hamburger-nav-elements {
+        flex-direction: row;
+        gap: var(--spacing-xl);
+    }
+}
+
+.hamburger-nav-element {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+@media (min-width: 1024px) {
+    .hamburger-nav-element-cover::after {
+        content: '';
+        display: block;
+        position: relative;
+        border-radius: var(--border-radius);
+        left: 50%;
+        height: 3px;
+        background-color: var(--primary-color);
+        width: 0%;
+        transition: all var(--animation-time) var(--animation-type);
+    }
+
+    .hamburger-nav-element-cover:hover::after {
+        left: 0;
+        width: 100%;
+        transition: all var(--animation-time) var(--animation-type);
+    }
+
+    .hamburger-nav-element-cover:hover .hamburger-nav-element-icon {
+        fill: var(--primary-color);
+        color: var(--primary-color);
+        transition: all var(--animation-time) var(--animation-type);
+    }
+
+    .hamburger-nav-element-cover:hover {
+        transition: all var(--animation-time) var(--animation-type);
+    }
+
+    .hamburger-nav-element-cover:hover .hamburger-nav-element-text {
+        fill: var(--primary-color);
+        color: var(--primary-color);
+        transition: all var(--animation-time) var(--animation-type);
+    }
+}
+
+.hamburger-nav-element-icon {
+    width: calc(var(--base-font-size) * 2);
+    height: calc(var(--base-font-size) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--animation-time) var(--animation-type);
+}
