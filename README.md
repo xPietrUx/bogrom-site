@@ -55,7 +55,7 @@ Detailed list of technologies used in the project.
 
 Instructions on how a developer can run the project on their machine.
 
-1.  **Sklonuj repozytorium:**
+1.  **Clone the repositrory:**
 
     ```bash
     git clone https://github.com/xPietrUx/bogrom-site
