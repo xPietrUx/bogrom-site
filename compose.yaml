@@ -8,20 +8,33 @@ services:
         volumes:
             - db-data:/var/lib/postgresql/data
             - ./postgres-init:/docker-entrypoint-initdb.d
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - backend-net
 
     backend:
         build: ./backend
         restart: always
-        depends_on:
-            - db
         env_file:
             - .env
+        depends_on:
+            db:
+                condition: service_healthy
+        networks:
+            - backend-net
+            - frontend-net
 
     frontend:
         build: ./frontend
         restart: always
         depends_on:
             - backend
+        networks:
+            - frontend-net
 
     nginx:
         image: nginx:stable-alpine3.21
@@ -36,14 +49,20 @@ services:
         depends_on:
             - frontend
             - backend
+        networks:
+            - frontend-net
 
     certbot:
         image: certbot/certbot
+        restart: unless-stopped
         volumes:
             - ./data/certbot/conf:/etc/letsencrypt
             - ./data/certbot/www:/var/www/certbot
-        # Sprawdzanie co 12h czy należy odnowić certyfikat
-        command: renew --quiet
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
     db-data:
+
+networks:
+    backend-net:
+    frontend-net:
