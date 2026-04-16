@@ -1,39 +1,46 @@
 #!/bin/bash
 
+set -e
+
 DOMAIN="bogrom.pl"
 EMAIL="biuro@bogrom.pl"
 
-echo "Zatrzymywanie i usuwanie starych kontenerów..."
-docker-compose down --volumes
+echo "🚀 Rozpoczynamy wdrożenie dla $DOMAIN..."
 
-echo "Tworzenie pustych folderów dla Certbota..."
+echo "1. Zatrzymywanie starych kontenerów..."
+docker-compose down
+
+echo "2. Tworzenie katalogów dla certyfikatów..."
 mkdir -p ./data/certbot/conf
 mkdir -p ./data/certbot/www
 
-echo "Budowanie obrazów Docker..."
+echo "3. Budowanie obrazów"
 docker-compose build --no-cache
 
-echo "Uruchamianie Nginx w celu weryfikacji domeny przez Certbot..."
-docker-compose run --rm --service-ports -v "$(pwd)/frontend/nginx-certbot.conf:/etc/nginx/conf.d/default.conf" nginx
+echo "4. Uruchamianie tymczasowego Nginx w tle..."
 
-# Podczas pierwszego wdrażania
-# Skrypt się zatrzyma, w między czasie w drugiej konsoli wykonać:
-# docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d bogrom.pl -d www.bogrom.pl --email biuro@bogrom.pl --agree-tos --no-eff-email
-# Następnie wrócić do pierwszej i ctrl+c
+docker-compose run -d --name temp-nginx -p 80:80 --rm -v "$(pwd)/frontend/nginx-certbot.conf:/etc/nginx/conf.d/default.conf" nginx
 
-echo "Uzyskiwanie certyfikatu Let's Encrypt..."
-docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d $DOMAIN -d www.$DOMAIN --email $EMAIL --agree-tos --no-eff-email
+echo "5. Oczekiwanie na start Nginxa..."
+sleep 3
 
-echo "Zatrzymywanie tymczasowego Nginx..."
-docker-compose down
+echo "6. Generowanie lub weryfikacja certyfikatu Let's Encrypt..."
+if [ -d "./data/certbot/conf/live/$DOMAIN" ]; then
+  echo "Certyfikat dla $DOMAIN już istnieje na dysku. Pomijam wymuszanie generowania."
+else
+  echo "Brak certyfikatu. Rozpoczynam generowanie nowego..."
+  docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d $DOMAIN -d www.$DOMAIN --email $EMAIL --agree-tos --no-eff-email
+fi
 
-echo "Uruchamianie całej aplikacji z HTTPS..."
+echo "7. Zatrzymywanie tymczasowego Nginxa..."
+docker stop temp-nginx
+
+echo "8. Startowanie pełnej infrastruktury produkcyjnej..."
 docker-compose up -d
 
-echo "Aplikacja została pomyślnie wdrożona i jest dostępna pod adresem https://$DOMAIN"
+echo "9. Inicjalizacja/Seeding bazy danych Prisma..."
 
-echo "Uruchamianie seedingu bazy danych..."
+sleep 5
 docker-compose exec backend npx prisma db seed
-echo "Seeding zakończony."
 
-read -p "Wciśnij ENTER, aby zakończyć..."
+echo "✅ Wdrożenie zakończone sukcesem! Aplikacja jest dostępna pod https://$DOMAIN"
