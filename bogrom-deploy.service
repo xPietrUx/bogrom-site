@@ -1,0 +1,13 @@
+# Directory /etc/systemd/system
+
+[Unit]
+Description=Uruchomienie wdrożenia bogrom.pl po restarcie
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=bogrom
+WorkingDirectory=/home/bogrom/bogrom
+ExecStart=/bin/bash /home/bogrom/bogrom/deploy.sh
+RemainAfterExit=yes
